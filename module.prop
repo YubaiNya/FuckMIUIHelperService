@@ -1,5 +1,6 @@
-id=fuckmiuihelperservice
-name=FuckMIUIHelperService!
-version=1.3
-versionCode=4
-description=通过超雷霆手段禁用MIUIGuardProvider SystemHelper MiTrustService 的自动安装权限 启动权限 上传下载数据权限
+id=fuckmiuihelperservice_safe
+name=FuckMIUIHelperService · Safe Strict
+version=2.0.0-preview.1
+versionCode=20001
+author=Baka-Sky (upstream), YubaiNya (safe fork)
+description=严格禁用 SystemHelper、GuardProvider、MiTrust；按包隔离，事件触发，无定时轮询，保留 APK 和数据。Android 15+；预览版，尚未在 HyperOS 真机验证。

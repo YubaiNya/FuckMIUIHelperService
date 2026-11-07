@@ -1,12 +1,11 @@
 #!/system/bin/sh
-# 卸载模块时清理：移除 netfilter 规则并强杀进程
-# （规则随重启也会全部消失）
-for pkg in com.mobiletools.systemhelper com.miui.guardprovider com.xiaomi.trustservice; do
-    uid=$(pm list packages -U 2>/dev/null | grep -w "$pkg" | sed 's/.*uid://')
-    [ -z "$uid" ] && continue
-    for bin in iptables ip6tables; do
-        command -v "$bin" >/dev/null 2>&1 || continue
-        "$bin" -D OUTPUT -m owner --uid-owner "$uid" -j DROP 2>/dev/null
-        "$bin" -D INPUT  -m owner --uid-owner "$uid" -j DROP 2>/dev/null
-    done
-done
+# SPDX-License-Identifier: GPL-3.0-only
+umask 077
+FMH_STATE=/data/adb/fmh-safe
+[ -f "$FMH_STATE/controller.dex" ] || exit 0
+# Pause immediately, even if Android services have not started yet.
+: > "$FMH_STATE/paused"
+export CLASSPATH="$FMH_STATE/controller.dex"
+/system/bin/app_process /system/bin io.github.yubainya.fmh.Main restore /data/adb/modules/fuckmiuihelperservice_safe >"$FMH_STATE/restore.log" 2>&1 &
+# Keep original facts and the boot recovery hook; never erase failed recovery evidence.
+exit 0
